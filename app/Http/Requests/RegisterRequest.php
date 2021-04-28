@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
+//use Illuminate\Foundation\Http\FormRequest;
 
 class RegisterRequest extends ApiRequest
 {
@@ -13,7 +13,7 @@ class RegisterRequest extends ApiRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**

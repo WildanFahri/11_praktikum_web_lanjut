@@ -36,7 +36,7 @@ class AuthController extends Controller
 
     public function login(LoginRequest $request)
     {
-        $validated = $request->validate();
+        $validated = $request->validated();
 
         if (!Auth::attempt($validated)) {
             return $this->apiError('Credentials not match', Response::HTTP_UNAUTHORIZED);
