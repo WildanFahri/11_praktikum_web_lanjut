@@ -3,14 +3,15 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Traits\ApiResponse;
-use Illuminate\Http\Request;
+use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Models\User;
-use Illuminate\Support\Facades\Hash;
-use App\Http\Requests\LoginRequest;
+use App\Traits\ApiResponse;
 use Illuminate\Auth\Events\Login;
+use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Symfony\Component\HttpFoundation\Response;
 
 class AuthController extends Controller
@@ -50,5 +51,15 @@ class AuthController extends Controller
             'token_type' => 'Bearer',
             'user' => $user,
         ]);
+    }
+    public function logout()
+    {
+        try {
+            auth()->user()->tokens()->delete();
+            return $this->apiSuccess('Token revoked');
+        } catch (\Throwable $e) {
+            throw new HttpResponseException($this->apiError(null, Response::HTTP_INTERNAL_SERVER_ERROR,
+            ));
+        }
     }
 }
